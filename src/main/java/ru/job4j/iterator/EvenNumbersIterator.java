@@ -4,8 +4,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class EvenNumbersIterator implements Iterator<Integer> {
-    int[] arr;
-    int point = 0;
+    private int[] arr;
+    private int point = 0;
+
     public EvenNumbersIterator(int[] arr) {
         this.arr = arr;
     }
@@ -13,7 +14,7 @@ public class EvenNumbersIterator implements Iterator<Integer> {
     @Override
     public boolean hasNext() {
         for (; point < arr.length; point++) {
-            if(arr[point] % 2 == 0) {
+            if (arr[point] % 2 == 0) {
                 return true;
             }
         }
