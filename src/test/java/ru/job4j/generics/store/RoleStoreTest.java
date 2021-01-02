@@ -38,7 +38,18 @@ public class RoleStoreTest {
     @Test
     public void findById() {
         RoleStore roleStore = new RoleStore();
-        Role output = roleStore.findById("001");
+        Role role002 = new Role("002");
+        roleStore.add(new Role("001"));
+        roleStore.add(role002);
+        roleStore.add(new Role("003"));
+        Role output = roleStore.findById("002");
+        Assert.assertEquals(output, role002);
+    }
+
+    @Test
+    public void findByInvalidId() {
+        RoleStore roleStore = new RoleStore();
+        Role output = roleStore.findById("000001");
         Assert.assertNull(output);
     }
 }
