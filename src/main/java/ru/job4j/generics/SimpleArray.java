@@ -12,15 +12,15 @@ public class SimpleArray<T> implements Iterable {
     }
 
     void add(T model) {
-        array[Objects.checkIndex(index++, array.length + 1)] = model;
+        array[Objects.checkIndex(index++, array.length)] = model;
     }
 
     void set(int indexInsert, T model) {
-        if (indexInsert >= 0 && indexInsert < array.length) {
+        if (indexInsert >= 0 && indexInsert < index) {
             array[indexInsert] = model;
         } else {
             throw new IndexOutOfBoundsException(
-                    String.format("Allowed index from %s to %s", 0, array.length));
+                    String.format("Allowed index from %s to %s", 0, index));
         }
     }
 
@@ -29,17 +29,17 @@ public class SimpleArray<T> implements Iterable {
     }
 
     void remove(int indexDelete) {
-        if (indexDelete >= 0 && indexDelete < array.length) {
+        if (indexDelete >= 0 && indexDelete < index) {
             Object[] result =  new Object[array.length - 1];
             System.arraycopy(array, 0, result, 0, indexDelete);
             System.arraycopy(array, indexDelete + 1,
                     result, indexDelete, array.length - indexDelete - 1);
             array = result;
+            index--;
         } else {
             throw new IndexOutOfBoundsException(
-                    String.format("Allowed index from %s to %s", 0, array.length));
+                    String.format("Allowed index from %s to %s", 0, index));
         }
-
     }
 
     @Override

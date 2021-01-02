@@ -3,11 +3,8 @@ package ru.job4j.generics;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import static org.hamcrest.CoreMatchers.is;
 
 public class SimpleArrayTest {
@@ -47,7 +44,6 @@ public class SimpleArrayTest {
         simpleArray.remove(0);
         Assert.assertThat(simpleArray.get(0), is(2));
         Assert.assertThat(simpleArray.get(1), is(3));
-
     }
 
     @Test
