@@ -36,7 +36,11 @@ public class SimpleArrayTest {
         Assert.assertThat(simpleArray.get(0), is(1));
         Assert.assertThat(simpleArray.get(1), is(2));
         Assert.assertThat(simpleArray.get(2), is(3));
-        Assert.assertNull(simpleArray.get(3));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void whenInvalidGet() {
+        simpleArray.get(3);
     }
 
     @Test
@@ -44,6 +48,11 @@ public class SimpleArrayTest {
         simpleArray.remove(0);
         Assert.assertThat(simpleArray.get(0), is(2));
         Assert.assertThat(simpleArray.get(1), is(3));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void whenRemoveInvalidIndex() {
+        simpleArray.remove(3);
     }
 
     @Test

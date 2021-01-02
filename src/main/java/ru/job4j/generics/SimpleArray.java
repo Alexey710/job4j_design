@@ -1,5 +1,6 @@
 package ru.job4j.generics;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -16,30 +17,30 @@ public class SimpleArray<T> implements Iterable {
     }
 
     void set(int indexInsert, T model) {
-        if (indexInsert >= 0 && indexInsert < index) {
-            array[indexInsert] = model;
-        } else {
+        if (indexInsert < 0 || indexInsert >= index) {
             throw new IndexOutOfBoundsException(
-                    String.format("Allowed index from %s to %s", 0, index));
+                    String.format("Allowed index from %s to %s", 0, index - 1));
         }
+        array[indexInsert] = model;
     }
 
     T get(int indexSearch) {
-        return (T) array[Objects.checkIndex(indexSearch, array.length + 1)];
+        if (indexSearch < 0 || indexSearch >= index) {
+            throw new IndexOutOfBoundsException(
+                    String.format("Allowed index from %s to %s", 0, index - 1));
+        }
+        return (T) array[Objects.checkIndex(indexSearch, index)];
     }
 
     void remove(int indexDelete) {
-        if (indexDelete >= 0 && indexDelete < index) {
-            Object[] result =  new Object[array.length - 1];
-            System.arraycopy(array, 0, result, 0, indexDelete);
-            System.arraycopy(array, indexDelete + 1,
-                    result, indexDelete, array.length - indexDelete - 1);
-            array = result;
-            index--;
-        } else {
+        if (indexDelete < 0 || indexDelete >= index) {
             throw new IndexOutOfBoundsException(
-                    String.format("Allowed index from %s to %s", 0, index));
+                    String.format("Allowed index from %s to %s", 0, index - 1));
         }
+        System.out.println(Arrays.toString(array));
+        System.arraycopy(array, indexDelete + 1, array, indexDelete, array.length - indexDelete - 1);
+        System.out.println(Arrays.toString(array));
+        index--;
     }
 
     @Override
