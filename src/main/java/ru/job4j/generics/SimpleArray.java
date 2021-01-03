@@ -38,7 +38,8 @@ public class SimpleArray<T> implements Iterable {
                     String.format("Allowed index from %s to %s", 0, index - 1));
         }
         System.out.println(Arrays.toString(array));
-        System.arraycopy(array, indexDelete + 1, array, indexDelete, array.length - indexDelete - 1);
+        System.arraycopy(array, indexDelete + 1,
+                array, indexDelete, array.length - indexDelete - 1);
         System.out.println(Arrays.toString(array));
         index--;
     }

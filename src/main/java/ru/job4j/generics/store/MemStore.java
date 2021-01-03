@@ -40,7 +40,7 @@ public final class MemStore<T extends Base> implements Store<T> {
         return rsl > 0 ? mem.get(rsl) : null;
     }
 
-    public int getIndex (String id) {
+    public int getIndex(String id) {
         for (T elem : mem) {
             if (elem.getId().equals(id)) {
                 return mem.indexOf(elem);
