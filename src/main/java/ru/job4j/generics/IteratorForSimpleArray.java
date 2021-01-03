@@ -4,17 +4,19 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class IteratorForSimpleArray implements Iterator<Object> {
+    private SimpleArray simpleArray;
     private final Object[] data;
     private int point;
 
-    public IteratorForSimpleArray(Object[] data) {
-        this.data = data;
+    public IteratorForSimpleArray(SimpleArray simpleArray) {
+        this.simpleArray = simpleArray;
+        this.data = simpleArray.getArray();
         point = 0;
     }
 
     @Override
     public boolean hasNext() {
-        return point < data.length;
+        return point < simpleArray.getIndex();
     }
 
     @Override

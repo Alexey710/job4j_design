@@ -62,7 +62,13 @@ public class SimpleArrayTest {
         Assert.assertThat(it.next(), is(1));
         Assert.assertThat(it.next(), is(2));
         Assert.assertThat(it.next(), is(3));
-        Assert.assertNull(it.next());
+        Assert.assertFalse(it.hasNext());
+    }
+
+    @Test
+    public void whenIteratorEmptyArray() {
+        SimpleArray<Integer> simpleArray = new SimpleArray<>(10);
+        Iterator it = simpleArray.iterator();
         Assert.assertFalse(it.hasNext());
     }
 

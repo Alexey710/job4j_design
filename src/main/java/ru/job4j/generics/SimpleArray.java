@@ -1,6 +1,5 @@
 package ru.job4j.generics;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -10,6 +9,14 @@ public class SimpleArray<T> implements Iterable {
 
     public SimpleArray(int size) {
         array =  new Object[size];
+    }
+
+    public Object[] getArray() {
+        return array;
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     void add(T model) {
@@ -37,16 +44,14 @@ public class SimpleArray<T> implements Iterable {
             throw new IndexOutOfBoundsException(
                     String.format("Allowed index from %s to %s", 0, index - 1));
         }
-        System.out.println(Arrays.toString(array));
         System.arraycopy(array, indexDelete + 1,
                 array, indexDelete, array.length - indexDelete - 1);
-        System.out.println(Arrays.toString(array));
         index--;
     }
 
     @Override
     public Iterator<T> iterator() {
-        Iterator it = new IteratorForSimpleArray(array);
+        Iterator it = new IteratorForSimpleArray(this);
         return it;
     }
 
