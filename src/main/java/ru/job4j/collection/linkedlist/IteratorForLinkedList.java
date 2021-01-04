@@ -8,6 +8,7 @@ public class IteratorForLinkedList<E> implements Iterator {
     private SimpleLinkedList<E> simpleLinkedList;
     private int point = 0;
     private final int expectedMod;
+    private SimpleLinkedList.Node current = new SimpleLinkedList.Node(null, null, null);
 
     IteratorForLinkedList(SimpleLinkedList<E> simpleLinkedList, int modCount) {
         this.simpleLinkedList = simpleLinkedList;
@@ -19,7 +20,7 @@ public class IteratorForLinkedList<E> implements Iterator {
         if (simpleLinkedList.getModCount() != expectedMod) {
             throw new ConcurrentModificationException();
         }
-        return point < expectedMod;
+        return point < simpleLinkedList.getSize();
     }
 
     @Override
@@ -27,7 +28,14 @@ public class IteratorForLinkedList<E> implements Iterator {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        return simpleLinkedList.get(point++);
+
+        if (current.getPrev() == null && current.getNext() == null) {
+            current = simpleLinkedList.getFirst();
+        } else {
+            current = current.getNext();
+        }
+        point++;
+        return current.getItem();
     }
 
 }

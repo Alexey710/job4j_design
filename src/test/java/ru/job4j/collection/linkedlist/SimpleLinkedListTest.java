@@ -2,11 +2,9 @@ package ru.job4j.collection.linkedlist;
 
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import static org.hamcrest.CoreMatchers.is;
 
 public class SimpleLinkedListTest {
@@ -20,6 +18,16 @@ public class SimpleLinkedListTest {
         linkedList.linkLast("item4");
         Assert.assertThat(linkedList.get(0), is("item1"));
         Assert.assertThat(linkedList.get(3), is("item4"));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void whenInvalidGet() {
+        SimpleLinkedList<String> linkedList = new SimpleLinkedList<>();
+        linkedList.linkLast("item1");
+        linkedList.linkLast("item2");
+        linkedList.linkLast("item3");
+        linkedList.linkLast("item4");
+        linkedList.get(4);
     }
 
     @Test

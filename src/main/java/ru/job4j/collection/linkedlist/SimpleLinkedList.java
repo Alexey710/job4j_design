@@ -1,6 +1,7 @@
 package ru.job4j.collection.linkedlist;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 public class SimpleLinkedList<E> implements Iterable {
     private Node<E> first;
@@ -8,8 +9,16 @@ public class SimpleLinkedList<E> implements Iterable {
     private int modCount = 0;
     private int size;
 
+    public Node<E> getFirst() {
+        return first;
+    }
+
     public int getModCount() {
         return modCount;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     void linkLast(E e) {
@@ -26,6 +35,7 @@ public class SimpleLinkedList<E> implements Iterable {
     }
 
     E get(int index) {
+        Objects.checkIndex(index, size);
         int count = 0;
         Node<E> current = first;
         while (current.next != null && count != index) {
@@ -40,7 +50,7 @@ public class SimpleLinkedList<E> implements Iterable {
         return new IteratorForLinkedList(this, modCount);
     }
 
-    private static class Node<E> {
+    static class Node<E> {
         private E item;
         private Node<E> next;
         private Node<E> prev;
@@ -49,6 +59,18 @@ public class SimpleLinkedList<E> implements Iterable {
             this.item = element;
             this.next = next;
             this.prev = prev;
+        }
+
+        public E getItem() {
+            return item;
+        }
+
+        public Node<E> getNext() {
+            return next;
+        }
+
+        public Node<E> getPrev() {
+            return prev;
         }
     }
 
