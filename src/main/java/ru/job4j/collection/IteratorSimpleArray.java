@@ -10,9 +10,9 @@ public class IteratorSimpleArray implements Iterator {
     private int expectedModCount;
     private int point = 0;
 
-    public IteratorSimpleArray(SimpleArray simpleArray) {
+    public IteratorSimpleArray(SimpleArray simpleArray, int modCount) {
         this.container = simpleArray.getContainer();
-        this.expectedModCount = simpleArray.getExpectedModCount();
+        this.expectedModCount = modCount;
         this.simpleArray = simpleArray;
     }
 
@@ -21,7 +21,7 @@ public class IteratorSimpleArray implements Iterator {
         if (expectedModCount != simpleArray.getModCount()) {
             throw new ConcurrentModificationException();
         }
-        return point < expectedModCount;
+        return point < simpleArray.getSize();
     }
 
     @Override
