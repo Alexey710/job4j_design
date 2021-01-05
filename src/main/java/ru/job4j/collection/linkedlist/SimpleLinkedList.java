@@ -3,7 +3,7 @@ package ru.job4j.collection.linkedlist;
 import java.util.Iterator;
 import java.util.Objects;
 
-public class SimpleLinkedList<E> implements Iterable {
+public class SimpleLinkedList<E> implements Iterable<E> {
     private Node<E> first;
     private Node<E> last;
     private int modCount = 0;
@@ -46,8 +46,8 @@ public class SimpleLinkedList<E> implements Iterable {
     }
 
     @Override
-    public Iterator iterator() {
-        return new IteratorForLinkedList(this, modCount);
+    public Iterator<E> iterator() {
+        return new IteratorForLinkedList<E>(this, modCount);
     }
 
     static class Node<E> {

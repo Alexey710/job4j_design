@@ -4,11 +4,11 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class IteratorForLinkedList<E> implements Iterator {
+public class IteratorForLinkedList<E> implements Iterator<E> {
     private SimpleLinkedList<E> simpleLinkedList;
     private int point = 0;
     private final int expectedMod;
-    private SimpleLinkedList.Node current = new SimpleLinkedList.Node(null, null, null);
+    private SimpleLinkedList.Node<E> current = new SimpleLinkedList.Node<E>(null, null, null);
 
     IteratorForLinkedList(SimpleLinkedList<E> simpleLinkedList, int modCount) {
         this.simpleLinkedList = simpleLinkedList;
@@ -24,7 +24,7 @@ public class IteratorForLinkedList<E> implements Iterator {
     }
 
     @Override
-    public Object next() {
+    public E next() {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
