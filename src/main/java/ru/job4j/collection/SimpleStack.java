@@ -14,4 +14,8 @@ public class SimpleStack<T> {
     public T popFirst() {
         return linked.deleteFirst();
     }
+
+    public boolean isEmpty() {
+        return linked.isEmpty();
+    }
 }
