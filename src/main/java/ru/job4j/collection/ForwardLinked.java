@@ -3,7 +3,7 @@ package ru.job4j.collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class DeleteFirstLinked<T> implements Iterable<T> {
+public class ForwardLinked<T> implements Iterable<T> {
     private Node<T> head;
 
     public void add(T value) {
@@ -29,6 +29,25 @@ public class DeleteFirstLinked<T> implements Iterable<T> {
         head = second;
         return deleted;
 
+    }
+
+    public T deleteLast() {
+        if (head == null) {
+            throw new NoSuchElementException();
+        }
+        T deleted = head.value;
+        Node<T> tail = head;
+        if (tail.next != null) {
+            while (tail.next.next != null) {
+                tail = tail.next;
+            }
+            deleted = tail.next.value;
+            tail.next = null;
+        } else {
+            head = null;
+            return deleted;
+        }
+        return deleted;
     }
 
     @Override

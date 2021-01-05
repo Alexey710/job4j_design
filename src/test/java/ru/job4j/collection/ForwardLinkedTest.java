@@ -8,11 +8,11 @@ import java.util.NoSuchElementException;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class DeleteFirstLinkedTest {
+public class ForwardLinkedTest {
 
     @Test(expected = NoSuchElementException.class)
     public void whenDeleteFirst() {
-        DeleteFirstLinked<Integer> linked = new DeleteFirstLinked<>();
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
         linked.add(1);
         linked.deleteFirst();
         linked.iterator().next();
@@ -20,13 +20,13 @@ public class DeleteFirstLinkedTest {
 
     @Test(expected = NoSuchElementException.class)
     public void whenDeleteEmptyLinked() {
-        DeleteFirstLinked<Integer> linked = new DeleteFirstLinked<>();
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
         linked.deleteFirst();
     }
 
     @Test
     public void whenMultiDelete() {
-        DeleteFirstLinked<Integer> linked = new DeleteFirstLinked<>();
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
         linked.add(1);
         linked.add(2);
         assertThat(linked.deleteFirst(), is(1));
