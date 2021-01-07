@@ -18,9 +18,7 @@ public class SimpleSetTest {
         Iterator<Integer> it = simpleSet.iterator();
         Assert.assertThat(it.next(), Is.is(1));
         Assert.assertThat(it.next(), Is.is(2));
-        Assert.assertThat(simpleSet.simpleArray.getSize(), Is.is(2));
-
-
+        Assert.assertThat(simpleSet.getSimpleArray().getSize(), Is.is(2));
     }
 
     @Test(expected = NoSuchElementException.class)

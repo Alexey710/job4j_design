@@ -1,4 +1,4 @@
-package ru.job4j.collection.reverseForwardLinked;
+package ru.job4j.collection.reverse;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;

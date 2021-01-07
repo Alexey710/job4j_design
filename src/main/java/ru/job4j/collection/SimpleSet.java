@@ -3,7 +3,12 @@ package ru.job4j.collection;
 import java.util.Iterator;
 
 public class SimpleSet<T> implements Iterable<T> {
-    SimpleArray<T> simpleArray = new SimpleArray<>();
+    private final SimpleArray<T> simpleArray = new SimpleArray<>();
+
+    public SimpleArray<T> getSimpleArray() {
+        return simpleArray;
+    }
+
     void add(T e) {
         if (simpleArray.getSize() == 0) {
             simpleArray.add(e);
@@ -21,4 +26,5 @@ public class SimpleSet<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return simpleArray.iterator();
     }
+
 }
