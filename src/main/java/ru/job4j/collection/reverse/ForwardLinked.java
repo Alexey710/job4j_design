@@ -21,7 +21,7 @@ public class ForwardLinked<T> implements Iterable<T> {
 
     public void revert() {
         if (head == null || head.next == null) {
-            throw new NoSuchElementException();
+            return;
         }
 
         Node<T> first = head;

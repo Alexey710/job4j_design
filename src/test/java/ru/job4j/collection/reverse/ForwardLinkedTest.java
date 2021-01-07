@@ -4,7 +4,6 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
 import org.junit.Test;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class ForwardLinkedTest {
 
@@ -31,10 +30,16 @@ public class ForwardLinkedTest {
         assertThat(it.next(), is(1));
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void whenRevertOnlyOneElement() {
         ForwardLinked<Integer> linked = new ForwardLinked<>();
         linked.add(1);
+        linked.revert();
+    }
+
+    @Test
+    public void whenRevertEmpty() {
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
         linked.revert();
     }
 }
