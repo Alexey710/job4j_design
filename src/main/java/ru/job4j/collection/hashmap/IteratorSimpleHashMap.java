@@ -8,10 +8,12 @@ public class IteratorSimpleHashMap<K, V> implements Iterator<V> {
     private SimpleHashMap<K, V> simpleHashMap;
     private int pointer = 0;
     private int expectedModeCount;
+    SimpleHashMap.Entry[] data;
 
-    public IteratorSimpleHashMap(SimpleHashMap<K, V> simpleHashMap, int modeCount) {
+    public IteratorSimpleHashMap(SimpleHashMap<K, V> simpleHashMap, int modeCount, SimpleHashMap.Entry[] data) {
         this.simpleHashMap = simpleHashMap;
         expectedModeCount = modeCount;
+        this.data = data;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class IteratorSimpleHashMap<K, V> implements Iterator<V> {
             throw new NoSuchElementException();
         }
         for (int i = pointer; i < simpleHashMap.getSize(); i++) {
-            SimpleHashMap.Entry<K, V> elem = simpleHashMap.getData()[i];
+            SimpleHashMap.Entry<K, V> elem = data[i];
             pointer++;
             if (elem != null) {
                 V rsl = elem.getValue();

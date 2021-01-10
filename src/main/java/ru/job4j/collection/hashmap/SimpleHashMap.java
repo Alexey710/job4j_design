@@ -14,10 +14,6 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
         return data.length;
     }
 
-    public Entry[] getData() {
-        return data;
-    }
-
     public int getCount() {
         return count;
     }
@@ -69,7 +65,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
 
     public boolean delete(K key) {
         int h = hash(key, data);
-        if (data[h] != null) {
+        if (data[h] != null && Objects.equals(key, data[h].getKey())) {
             data[h] = null;
             count--;
             modeCount++;
@@ -80,7 +76,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
 
     @Override
     public Iterator<V> iterator() {
-        return new IteratorSimpleHashMap<K, V>(this, modeCount);
+        return new IteratorSimpleHashMap<K, V>(this, modeCount, data);
     }
 
      static class Entry<K, V> {
