@@ -8,9 +8,11 @@ public class IteratorSimpleHashMap<K, V> implements Iterator<V> {
     private SimpleHashMap<K, V> simpleHashMap;
     private int pointer = 0;
     private int expectedModeCount;
-    SimpleHashMap.Entry[] data;
+    private SimpleHashMap.Entry[] data;
 
-    public IteratorSimpleHashMap(SimpleHashMap<K, V> simpleHashMap, int modeCount, SimpleHashMap.Entry[] data) {
+    public IteratorSimpleHashMap(SimpleHashMap<K, V> simpleHashMap,
+                                 int modeCount,
+                                 SimpleHashMap.Entry[] data) {
         this.simpleHashMap = simpleHashMap;
         expectedModeCount = modeCount;
         this.data = data;
