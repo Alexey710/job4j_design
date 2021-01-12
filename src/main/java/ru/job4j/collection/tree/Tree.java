@@ -10,6 +10,22 @@ class Tree<E> implements SimpleTree<E> {
     }
 
     @Override
+    public boolean isBinary() {
+        Queue<Node<E>> queue = new ArrayDeque<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node<E> currentNode = queue.remove();
+            int size = currentNode.getChildren().size();
+            if (size != 2 && size != 0) {
+                return false;
+            } else {
+                queue.addAll(currentNode.getChildren());
+            }
+        }
+        return true;
+    }
+
+    @Override
     public boolean add(E parent, E child) {
         boolean rsl = false;
         Optional<Node<E>> optChild = findBy(child);
@@ -19,7 +35,7 @@ class Tree<E> implements SimpleTree<E> {
         Optional<Node<E>> optParent = findBy(parent);
         if (optParent.isPresent()) {
             Node<E> nodeParent = optParent.get();
-            nodeParent.children.add(new Node<E>(child));
+            nodeParent.getChildren().add(new Node<E>(child));
             rsl = true;
         }
         return rsl;
@@ -32,11 +48,11 @@ class Tree<E> implements SimpleTree<E> {
         data.offer(this.root);
         while (!data.isEmpty()) {
             Node<E> el = data.poll();
-            if (el.value.equals(value)) {
+            if (el.getValue().equals(value)) {
                 rsl = Optional.of(el);
                 break;
             }
-            data.addAll(el.children);
+            data.addAll(el.getChildren());
         }
         return rsl;
     }
