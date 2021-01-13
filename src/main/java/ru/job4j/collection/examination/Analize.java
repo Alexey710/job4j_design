@@ -8,7 +8,7 @@ public class Analize {
 
     public Info diff(List<User> previous, List<User> current) {
         int changed = 0;
-        int added = 0;
+        int added;
         int deleted = 0;
         for (User elem : current) {
             currentMap.put(elem, elem);
@@ -16,16 +16,14 @@ public class Analize {
         for (User elem : previous) {
             Optional<User> optionalUser = Optional.ofNullable(currentMap.get(elem));
             if (optionalUser.isPresent()) {
-                if (Objects.equals(elem, optionalUser.get())) {
-                        if (!Objects.equals(elem.getName(), currentMap.get(elem).getName())) {
-                            changed++;
-                    }
+                if (!Objects.equals(elem.getName(), currentMap.get(elem).getName())) {
+                    changed++;
                 }
             } else {
                 deleted++;
             }
-            added = currentMap.size() + deleted - previous.size();
         }
+        added = currentMap.size() + deleted - previous.size();
         return new Info(added, changed, deleted);
     }
 
