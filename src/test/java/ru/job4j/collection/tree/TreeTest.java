@@ -61,8 +61,9 @@ public class TreeTest {
     public void whenIsBinaryFalse() {
         Tree<Integer> tree = new Tree<>(1);
         tree.add(1, 2);
-        tree.add(1, 3);
+        tree.add(2, 3);
         tree.add(2, 4);
+        tree.add(2, 5);
         assertFalse(tree.isBinary());
     }
 }

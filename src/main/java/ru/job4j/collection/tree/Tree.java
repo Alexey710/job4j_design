@@ -16,7 +16,7 @@ class Tree<E> implements SimpleTree<E> {
         while (!queue.isEmpty()) {
             Node<E> currentNode = queue.remove();
             int size = currentNode.getChildren().size();
-            if (size != 2 && size != 0) {
+            if (size > 2) {
                 return false;
             } else {
                 queue.addAll(currentNode.getChildren());
