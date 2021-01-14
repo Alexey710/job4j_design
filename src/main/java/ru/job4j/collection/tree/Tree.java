@@ -26,39 +26,29 @@ class Tree<E> implements SimpleTree<E> {
         return rsl;
     }
 
-    private boolean standardBFS(Predicate<Node<E>> predicate) {
-        Queue<Node<E>> queue = new ArrayDeque<>();
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            Node<E> currentNode = queue.remove();
-            int size = currentNode.getChildren().size();
-            if (predicate.test(currentNode)) {
-                return false;
-            }
-            queue.addAll(currentNode.getChildren());
-        }
-        return true;
-    }
-
-    @Override
-    public boolean isBinary() {
-        return standardBFS(o -> o.getChildren().size() > 2);
-    }
-
-    @Override
-    public Optional<Node<E>> findBy(E value) {
+    public Optional<Node<E>> find(Predicate<Node<E>> predicate) {
         Optional<Node<E>> rsl = Optional.empty();
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(this.root);
         while (!data.isEmpty()) {
             Node<E> el = data.poll();
-            if (el.getValue().equals(value)) {
+            if (predicate.test(el)) {
                 rsl = Optional.of(el);
                 break;
             }
             data.addAll(el.getChildren());
         }
         return rsl;
+    }
+
+    @Override
+    public boolean isBinary() {
+        return find(o -> o.getChildren().size() > 2).isEmpty();
+    }
+
+    @Override
+    public Optional<Node<E>> findBy(E value) {
+        return find(o -> o.getValue().equals(value));
     }
 
 }
