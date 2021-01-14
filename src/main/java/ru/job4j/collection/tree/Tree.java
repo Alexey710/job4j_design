@@ -1,28 +1,13 @@
 package ru.job4j.collection.tree;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 class Tree<E> implements SimpleTree<E> {
     private final Node<E> root;
 
     Tree(final E root) {
         this.root = new Node<>(root);
-    }
-
-    @Override
-    public boolean isBinary() {
-        Queue<Node<E>> queue = new ArrayDeque<>();
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            Node<E> currentNode = queue.remove();
-            int size = currentNode.getChildren().size();
-            if (size > 2) {
-                return false;
-            } else {
-                queue.addAll(currentNode.getChildren());
-            }
-        }
-        return true;
     }
 
     @Override
@@ -41,6 +26,25 @@ class Tree<E> implements SimpleTree<E> {
         return rsl;
     }
 
+    private boolean standardBFS(Predicate<Node<E>> predicate) {
+        Queue<Node<E>> queue = new ArrayDeque<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node<E> currentNode = queue.remove();
+            int size = currentNode.getChildren().size();
+            if (predicate.test(currentNode)) {
+                return false;
+            }
+            queue.addAll(currentNode.getChildren());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isBinary() {
+        return standardBFS(o -> o.getChildren().size() > 2);
+    }
+
     @Override
     public Optional<Node<E>> findBy(E value) {
         Optional<Node<E>> rsl = Optional.empty();
@@ -56,4 +60,5 @@ class Tree<E> implements SimpleTree<E> {
         }
         return rsl;
     }
+
 }
