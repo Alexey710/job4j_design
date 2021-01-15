@@ -17,13 +17,11 @@ public class Config {
     public void load() {
         try (BufferedReader read = new BufferedReader(new FileReader(path))) {
             read.lines().forEach(s -> {
-                if (s.contains("=")) {
+                if (!s.contains("#") && s.contains("=")) {
                     String[] arr = s.split("=");
-                    if (arr[1].contains("//")) {
-                        String[] arrElem = arr[1].split("//");
-                        arr[1] = arrElem[0];
+                    if(arr.length == 2) {
+                        values.put(arr[0], arr[1]);
                     }
-                    values.put(arr[0], arr[1]);
                 }
             });
         } catch (Exception e) {
