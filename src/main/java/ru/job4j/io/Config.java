@@ -19,7 +19,7 @@ public class Config {
             read.lines().forEach(s -> {
                 if (!s.contains("#") && s.contains("=")) {
                     String[] arr = s.split("=");
-                    if(arr.length == 2) {
+                    if (arr.length == 2) {
                         values.put(arr[0], arr[1]);
                     }
                 }
