@@ -9,33 +9,19 @@ import java.util.List;
 
 public class Analizy {
     private final List<String> interval = new ArrayList<>();
+    private int mark;
 
     public void unavailable(String source, String target) {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(source))) {
             bufferedReader.lines().forEach(s -> {
                 String[] arr = s.split(" ");
-                if (arr[0].equals("400") || arr[0].equals("500")) {
-                    if (interval.size() > 0) {
-                        String before = interval.get(interval.size() - 1);
-                        if (!(before.equals("400") || before.equals("500"))) {
-                            interval.add(arr[1]);
-                            interval.add(arr[0]);
-                            interval.remove(interval.size() - 3);
-                        }
-                    } else {
-                        interval.add(arr[1]);
-                        interval.add(arr[0]);
-                    }
+                if (arr[0].equals("500") && mark == 0 || arr[0].equals("400") && mark == 0) {
+                    interval.add(arr[1]);
+                    mark = 1;
                 }
-                if (arr[0].equals("200") || arr[0].equals("300")) {
-                    if (interval.size() > 0) {
-                        String before = interval.get(interval.size() - 1);
-                        if (before.equals("400") || before.equals("500")) {
-                            interval.add(arr[1]);
-                            interval.add(arr[0]);
-                            interval.remove(interval.size() - 3);
-                        }
-                    }
+                if (arr[0].equals("200") && mark == 1 || arr[0].equals("300") && mark == 1) {
+                    interval.add(arr[1]);
+                    mark = 0;
                 }
             });
         } catch (Exception e) {
