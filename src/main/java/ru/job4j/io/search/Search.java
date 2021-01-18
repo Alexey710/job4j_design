@@ -8,17 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Search {
-
-    private static List<Path> pathArrayList = new ArrayList<>();
-
-    public static void addPath(Path current) {
-        pathArrayList.add(current);
-    }
+    static List<Path> foundItems = new ArrayList<>();
 
     public static List<Path> search(Path root, String ext) throws IOException {
-        List<Path> paths = pathArrayList;
+        foundItems.clear();
         Files.walkFileTree(root, new PrintFiles(ext));
-        return paths;
+        return foundItems;
     }
 
     public static void main(String[] args) throws IOException {

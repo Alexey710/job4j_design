@@ -21,7 +21,7 @@ public class PrintFiles implements FileVisitor<Path> {
         String s = path.toString();
         String substring = s.substring(s.length() - length);
         if (substring.equals(ext)) {
-            Search.addPath(path);
+            Search.foundItems.add(file);
         }
         return CONTINUE;
     }
