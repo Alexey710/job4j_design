@@ -16,9 +16,10 @@ public class PrintFiles implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+        int length = ext.length();
         Path path = file.toAbsolutePath();
         String s = path.toString();
-        String substring = s.substring(s.length() - 2);
+        String substring = s.substring(s.length() - length);
         if (substring.equals(ext)) {
             Search.addPath(path);
         }
