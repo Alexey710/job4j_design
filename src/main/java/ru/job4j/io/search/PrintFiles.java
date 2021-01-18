@@ -5,13 +5,17 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.function.Predicate;
+
 import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class PrintFiles implements FileVisitor<Path> {
     private String ext;
+    private Predicate<String> predicate;
 
-    public PrintFiles(String ext) {
+    public PrintFiles(String ext, Predicate<String> predicate) {
         this.ext = ext;
+        this.predicate = predicate;
     }
 
     @Override
@@ -20,8 +24,8 @@ public class PrintFiles implements FileVisitor<Path> {
         Path path = file.toAbsolutePath();
         String s = path.toString();
         String substring = s.substring(s.length() - length);
-        if (substring.equals(ext)) {
-            Search.foundItems.add(file);
+        if (predicate.test(substring)) {
+            Search.getFoundItems().add(file);
         }
         return CONTINUE;
     }
