@@ -22,7 +22,7 @@ public class PrintFiles implements FileVisitor<Path> {
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         int length = ext.length();
         Path path = file.toAbsolutePath();
-        String s = path.toString();
+        String s = path.toFile().getName();
         String substring = s.substring(s.length() - length);
         if (predicate.test(substring)) {
             Search.getFoundItems().add(file);
