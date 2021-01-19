@@ -4,18 +4,23 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Search {
-    private static List<Path> foundItems = new ArrayList<>();
+    private static Set<String> foundItems = new HashSet<>();
 
-    public static List<Path> getFoundItems() {
+    public static Set<String> getFoundItems() {
         return foundItems;
     }
 
-    public static List<Path> search(Path root, String ext) throws IOException {
+    public static Set<String> search(Path root, String ext) throws IOException {
         foundItems.clear();
-        Files.walkFileTree(root, new PrintFiles(ext, p -> p.equals(ext)));
+        Files.walkFileTree(root, new PrintFiles(ext, p -> {
+            return p.equals(ext) && !foundItems.contains(p);
+        }
+        ));
         return foundItems;
     }
 

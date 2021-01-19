@@ -6,7 +6,6 @@ import java.nio.file.FileVisitor;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.function.Predicate;
-
 import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class PrintFiles implements FileVisitor<Path> {
@@ -25,7 +24,7 @@ public class PrintFiles implements FileVisitor<Path> {
         String s = path.toFile().getName();
         String substring = s.substring(s.length() - length);
         if (predicate.test(substring)) {
-            Search.getFoundItems().add(file);
+            Search.getFoundItems().add(file.toString());
         }
         return CONTINUE;
     }
