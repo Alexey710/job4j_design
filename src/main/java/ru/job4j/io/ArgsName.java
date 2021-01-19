@@ -16,6 +16,9 @@ public class ArgsName {
             throw new IllegalArgumentException("Array is empty.");
         }
         for (String s : args) {
+            if (!s.contains("=")) {
+                throw new IllegalArgumentException("Wrong format argument. Sign \"=\" is absent.");
+            }
             String[] arr = s.substring(1).split("=");
             values.put(arr[0], arr[1]);
         }

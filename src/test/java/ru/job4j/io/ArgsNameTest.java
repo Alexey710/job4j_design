@@ -23,4 +23,10 @@ public class ArgsNameTest {
         ArgsName jvm = ArgsName.of(new String[] {});
         jvm.get("Xmx");
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenIncorrectCommand() {
+        ArgsName jvm = ArgsName.of(new String[] {"-encoding=UTF-8", "-Xmx 512"});
+        assertThat(jvm.get("Xmx"), is("512"));
+    }
 }
