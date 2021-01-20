@@ -11,6 +11,7 @@ public class ConfigTest {
     public void whenPairWithoutCommentAndWithComment() {
         Config config = new Config(".\\app.properties");
         config.load();
+
         assertThat(config.value("hibernate.connection.username"), is("postgres"));
         assertThat(config.value("hibernate.connection.password"), is("password"));
         assertNull(config.value("comment"));
