@@ -29,6 +29,7 @@ public class ConsoleChat {
             }
     }
 
+    @SuppressWarnings("checkstyle:InnerAssignment")
     public void run() {
         List<String> answers = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(botAnswers))) {
