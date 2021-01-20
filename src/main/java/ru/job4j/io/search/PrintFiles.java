@@ -19,11 +19,8 @@ public class PrintFiles implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        int length = ext.length();
-        Path path = file.toAbsolutePath();
-        String s = path.toFile().getName();
-        String substring = s.substring(s.length() - length);
-        if (predicate.test(substring)) {
+        String s = file.toFile().getName();
+        if (predicate.test(s)) {
             Search.getFoundItems().add(file.toString());
         }
         return CONTINUE;

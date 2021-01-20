@@ -18,7 +18,7 @@ public class Search {
     public static Set<String> search(Path root, String ext) throws IOException {
         foundItems.clear();
         Files.walkFileTree(root, new PrintFiles(ext, p -> {
-            return p.equals(ext) && !foundItems.contains(p);
+            return p.endsWith(ext) && !foundItems.contains(p);
         }
         ));
         return foundItems;
