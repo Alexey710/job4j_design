@@ -50,8 +50,8 @@ public class ConsoleChat {
     }
 
     public static void main(String[] args) {
-        ConsoleChat cc = new ConsoleChat(".\\bot_log.txt",
-                ".\\bot_answers.txt");
+        ConsoleChat cc = new ConsoleChat("./bot_log.txt",
+                "./bot_answers.txt");
         cc.run();
     }
 }
