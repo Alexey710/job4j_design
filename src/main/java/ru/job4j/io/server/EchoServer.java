@@ -22,10 +22,10 @@ public class EchoServer {
                                 server.close();
                                 return;
                             } else if (subArr[0].equals("Hello")) {
-                                out.write("HTTP/1.1 200 OK\r\n".getBytes());
+                                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                                 out.write("\"Hello\"\r\n".getBytes());
                             } else {
-                                out.write("HTTP/1.1 200 OK\r\n".getBytes());
+                                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                                 out.write("\"What\"\r\n".getBytes());
                             }
                         }
