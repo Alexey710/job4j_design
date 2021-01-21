@@ -2,11 +2,7 @@ package ru.job4j.io;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class ConsoleChat {
     private static final String OUT = "закончить";
@@ -20,18 +16,9 @@ public class ConsoleChat {
         this.botAnswers = botAnswers;
     }
 
-    private void chatLogger(String path, String data) {
-            try (BufferedWriter br = new BufferedWriter(
-                    new FileWriter(path, Charset.forName("WINDOWS-1251"), true))) {
-                br.write(data + System.lineSeparator());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-    }
-
-    @SuppressWarnings("checkstyle:InnerAssignment")
     public void run() {
         List<String> answers = new ArrayList<>();
+        List<String> dialog = new LinkedList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(botAnswers))) {
             br.lines().forEach(answers :: add);
         } catch (IOException e) {
@@ -41,24 +28,30 @@ public class ConsoleChat {
         Random random = new Random();
         String input;
         while (!(input = scanner.nextLine()).equals(OUT)) {
-            chatLogger(log, input);
+            dialog.add(input);
             if (input.equals(STOP)) {
                 while (!input.equals(CONTINUE)) {
                     input  = scanner.nextLine();
-                    chatLogger(log, input);
+                    dialog.add(input);
                 }
             }
             int index = random.nextInt(answers.size());
             String bot = answers.get(index);
             System.out.println(bot);
-            chatLogger(log, bot);
+            dialog.add(bot);
         }
-        chatLogger(log, OUT);
+        dialog.add(OUT);
+        try (PrintWriter br = new PrintWriter(
+                new FileWriter(log, Charset.forName("WINDOWS-1251"), true))) {
+            dialog.forEach(br::println);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
-        ConsoleChat cc = new ConsoleChat("C:\\projects\\job4j_design\\bot_log.txt",
-                "C:\\projects\\job4j_design\\bot_answers.txt");
+        ConsoleChat cc = new ConsoleChat(".\\bot_log.txt",
+                ".\\bot_answers.txt");
         cc.run();
     }
 }
