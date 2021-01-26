@@ -1,0 +1,8 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<solder rank="solder" age="30">
+    <country country="Russia" countryCode="46000000"/>
+    <rewards>
+        <reward>First order</reward>
+        <reward>Second order</reward>
+    </rewards>
+</solder>
