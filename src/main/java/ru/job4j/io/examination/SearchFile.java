@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,15 +15,29 @@ public class SearchFile extends SimpleFileVisitor<Path> {
         argsValidation = new ArgsValidation(args);
     }
 
+    public List<String> getResult() {
+        return result;
+    }
+
     private void writeLog() throws IOException {
         if (argsValidation.getValues().containsKey("-r")) {
-            String regExp = argsValidation.getN();
-            searchRegExp("glob:**" + regExp);
+            String regExp = "glob:**" + argsValidation.getN();
+            PathMatcher matcher = FileSystems.getDefault().getPathMatcher(regExp);
+            Path directory = Path.of(argsValidation.getDirectory());
+            Files.walkFileTree(directory, new ImplFileVisitor(p -> matcher.matches(p), this));
         } else if (argsValidation.getValues().containsKey("-f")) {
             String fullName = argsValidation.getN();
-            searchFullName(fullName);
+            String target = Path.of(fullName).toFile().getName();
+            Path directory = Path.of(argsValidation.getDirectory());
+            Files.walkFileTree(directory,
+                    new ImplFileVisitor(p -> target.equals(p.toFile().getName()), this));
         } else if (argsValidation.getValues().containsKey("-m")) {
-            searchMask();
+            String s = argsValidation.getMask();
+            String[] arr = s.split("\\*");
+            String ext = arr[1];
+            Path directory = Path.of(argsValidation.getDirectory());
+            Files.walkFileTree(
+                    directory, new ImplFileVisitor(p -> p.toString().endsWith(ext), this));
         }
         try (PrintWriter printWriter = new PrintWriter(argsValidation.getLog())) {
             for (String entry: result) {
@@ -37,56 +50,6 @@ public class SearchFile extends SimpleFileVisitor<Path> {
     }
 
     /** for test RegExp = "glob:**.js" or "**.{js,txt}" */
-
-    private void searchRegExp(String regExp) throws IOException {
-        PathMatcher matcher = FileSystems.getDefault().getPathMatcher(regExp);
-        Path directory = Path.of(argsValidation.getDirectory());
-        Files.walkFileTree(directory, new SimpleFileVisitor<>() {
-            @Override
-            public FileVisitResult visitFile(Path file,
-                                             BasicFileAttributes attrs) throws IOException {
-                if (matcher.matches(file)) {
-                    String s = file.toFile().getName();
-                    result.add(s);
-                }
-                return FileVisitResult.CONTINUE;
-            }
-        });
-    }
-
-    private void searchFullName(String fullName) throws IOException {
-        String target = Path.of(fullName).toFile().getName();
-        Path directory = Path.of(argsValidation.getDirectory());
-        Files.walkFileTree(directory, new SimpleFileVisitor<>() {
-            @Override
-            public FileVisitResult visitFile(Path file,
-                                             BasicFileAttributes attrs) throws IOException {
-                String current = file.toFile().getName();
-                if (current.equals(target)) {
-                    result.add(current);
-                }
-                return FileVisitResult.CONTINUE;
-            }
-        });
-    }
-
-    private void searchMask() throws IOException {
-        String s = argsValidation.getMask();
-        String[] arr = s.split("\\*");
-        String ext = arr[1];
-        Path directory = Path.of(argsValidation.getDirectory());
-        Files.walkFileTree(directory, new SimpleFileVisitor<>() {
-            @Override
-            public FileVisitResult visitFile(Path file,
-                                             BasicFileAttributes attrs) throws IOException {
-                String current = file.toFile().getName();
-                if (current.endsWith(ext)) {
-                    result.add(current);
-                }
-                return FileVisitResult.CONTINUE;
-            }
-        });
-    }
 
     public static void main(String[] args) throws IOException {
         new SearchFile(args).writeLog();
