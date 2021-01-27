@@ -1,0 +1,6 @@
+CREATE DATABASE bank;
+CREATE TABLE payments(id serial primary key, destination varchar(255), sum integer);
+INSERT INTO payments (destination, sum) VALUES ('USA', '150');
+SELECT * FROM payments;
+UPDATE payments SET destination = 'RUS';
+DELETE FROM bank;
