@@ -26,7 +26,7 @@ rules_id int references rules(id)
 create table item (
 id serial primary key,
 name varchar(255),
-user_id int references user1(id),
+user_id int references user1(id)
 );
 
 -- item - comments = one-to-many
