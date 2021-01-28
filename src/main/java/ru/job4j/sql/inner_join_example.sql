@@ -1,0 +1,12 @@
+create table profession(id serial primary key, name varchar(255));
+insert into profession (name) values ('worker');
+insert into profession (name) values ('assitant');
+insert into profession (name) values ('chif');
+create table staff(id serial primary key, name varchar(255), profession_id int references profession(id));
+insert into staff (name, profession_id) values ('Ivan', 3);
+insert into staff (name, profession_id) values ('Ivan', 3);
+insert into staff (name, profession_id) values ('Stepan', 3);
+insert into staff (name, profession_id) values ('Tatiyna', 2);
+SELECT p.id, s.id FROM profession p JOIN staff s ON p.id = s.profession_id;
+SELECT p.name, s.name FROM profession p JOIN staff s ON p.id = s.profession_id;
+SELECT p.name, s.name, s.id FROM profession p JOIN staff s ON p.id = s.profession_id;
