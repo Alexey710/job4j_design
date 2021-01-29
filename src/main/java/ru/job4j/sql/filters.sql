@@ -33,6 +33,9 @@ insert into product(
 insert into product(
  name, type_id, expired_date, price)
  values ('эскимо', 3, date '2021-01-29', 38.50);
+insert into product(
+ name, type_id, expired_date, price)
+ values ('эскимо', 3, date '2021-01-30', 38.50);
 
 insert into type(name) values ('СЫР');
 insert into type(name) values ('МОЛОКО');
@@ -46,6 +49,9 @@ select * from product p inner join type t on p.type_id=t.id where p.name like '%
 select * from product where expired_date between
         date_trunc('month', now()) + interval '1 month' and
         date_trunc('month', now()) + interval '2 month';
+--второй вариант запроса
+select * from product where (select EXTRACT(MONTH FROM  expired_date)) =
+(select  EXTRACT(MONTH FROM ( current_date + interval '1 month')));
 --4. Написать запрос, который выводит самый дорогой продукт.
 select name, price from product where price = (select max(price) from product);
 --5. Написать запрос, который выводит количество всех продуктов определенного типа.
