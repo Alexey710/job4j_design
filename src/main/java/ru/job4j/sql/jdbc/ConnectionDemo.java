@@ -1,39 +1,34 @@
 package ru.job4j.sql.jdbc;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class ConnectionDemo {
-    private String login;
-    private String password;
-
     void connect() throws ClassNotFoundException, SQLException {
-        Class.forName("org.postgresql.Driver");
-        String url = "jdbc:postgresql://localhost:5432/idea_db";
-        File init = new File(".\\app.properties");
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(init))) {
-            bufferedReader.lines().forEach(p -> {
-                String[] arr = p.split("=");
-                if (arr[0].equals("jdbc.connection.username")) {
-                    login = arr[1];
-                }
-                if (arr[0].equals("jdbc.connection.password")) {
-                    password = arr[1];
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try (Connection connection = DriverManager.getConnection(url, login, password)) {
-            DatabaseMetaData metaData = connection.getMetaData();
+        String url;
+        String user;
+        String password;
+        Properties properties = new Properties();
+        try (FileInputStream fis = new FileInputStream(".\\app.properties");) {
+            String driver = (String) properties.get("jdbc.connection.driver_class");
+            properties.load(fis);
+            url = (String) properties.get("jdbc.connection.url");
+            user = (String) properties.get("jdbc.connection.username");
+            password = (String) properties.get("jdbc.connection.password");
+            DatabaseMetaData metaData;
+            try (Connection connection = DriverManager.getConnection(url, user, password)) {
+                metaData = connection.getMetaData();
+            }
             System.out.println(metaData.getUserName());
             System.out.println(metaData.getURL());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
