@@ -1,4 +1,4 @@
-package ru.job4j.sql.jdbc;
+package ru.job4j.sql.jdbc.ddl;
 
 import java.io.FileInputStream;
 import java.io.IOException;
