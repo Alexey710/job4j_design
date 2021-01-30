@@ -1,7 +1,6 @@
 package ru.job4j.sql.jdbc.ddl;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;
 
@@ -126,17 +125,21 @@ public class TableEditor implements AutoCloseable {
         }
     }
 
-    public static void main(String[] args)
-            throws IOException, ClassNotFoundException, SQLException {
+    public static void main(String[] args) {
         Properties properties = new Properties();
         try (FileInputStream fis = new FileInputStream(".\\jdbc.properties");) {
             properties.load(fis);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        TableEditor tableEditor = new TableEditor(properties);
-        tableEditor.createTable("table_two");
-        tableEditor.dropTable("table_two");
-        tableEditor.addColumn("table_one", "age", "int");
-        tableEditor.dropColumn("table_one", "id");
-        tableEditor.renameColumn("table_one", "age", "id");
+        try (TableEditor tableEditor = new TableEditor(properties)) {
+            tableEditor.createTable("table_two");
+            tableEditor.dropTable("table_two");
+            tableEditor.addColumn("table_one", "age", "int");
+            tableEditor.dropColumn("table_one", "id");
+            tableEditor.renameColumn("table_one", "age", "id");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
