@@ -33,11 +33,8 @@ select * from departments cross join emploees;
 --3. Используя left join найти работников, которые не относятся ни к одну из департаментов
 select * from emploees e left join departments d on d.id=e.departments_id where e.departments_id is null;
 --4. Используя left и right join написать запросы, которые давали бы одинаковый результат.
-select * from departments d left join emploees e on d.id=e.departments_id
-where d.id=e.departments_id;
-select * from departments d right join emploees e on d.id=e.departments_id
-where d.id=e.departments_id;
---where e.departments_id=d.id;
+select * from emploees e left join departments d on d.id=e.departments_id;
+select * from departments d right join emploees e on d.id=e.departments_id;
 --5. Создать таблицу teens с атрибутами name, gender и заполнить ее.
 --Используя cross join составить все возможные разнополые пары
 create table teens (
