@@ -38,70 +38,40 @@ public class TableEditor implements AutoCloseable {
         return properties;
     }
 
-    public void createTable(String tableName) throws SQLException {
+    private void doQuery(String sql) throws SQLException {
         try (Connection connection = getConnection()) {
             try (Statement statement = connection.createStatement()) {
-                String sql = String.format(
-                        "create table %s;",
-                        tableName
-                );
                 statement.execute(sql);
             }
         }
+    }
+
+    public void createTable(String tableName, String columnName, String type) throws SQLException {
+        String sql = String.format("create table %s (%s %s);",
+                tableName, columnName, type);
+        doQuery(sql);
     }
 
     public void dropTable(String tableName) throws SQLException {
-        try (Connection connection = getConnection()) {
-            try (Statement statement = connection.createStatement()) {
-                String sql = String.format(
-                        "drop table %s;",
-                        tableName
-                );
-                statement.execute(sql);
-            }
-        }
+        String sql = String.format("drop table %s;", tableName);
+        doQuery(sql);
     }
 
     public void addColumn(String tableName, String columnName, String type) throws SQLException {
-        try (Connection connection = getConnection()) {
-            try (Statement statement = connection.createStatement()) {
-                String sql = String.format(
-                        "ALTER TABLE %s ADD COLUMN %s %s;",
-                        tableName,
-                        columnName,
-                        type
-                );
-                statement.execute(sql);
-            }
-        }
+        String sql = String.format("ALTER TABLE %s ADD COLUMN %s %s;", tableName, columnName, type);
+        doQuery(sql);
     }
 
     public void dropColumn(String tableName, String columnName) throws SQLException {
-        try (Connection connection = getConnection()) {
-            try (Statement statement = connection.createStatement()) {
-                String sql = String.format(
-                        "ALTER TABLE %s DROP COLUMN %s",
-                        tableName,
-                        columnName
-                );
-                statement.execute(sql);
-            }
-        }
+        String sql = String.format("ALTER TABLE %s DROP COLUMN %s", tableName, columnName);
+        doQuery(sql);
     }
 
     public void renameColumn(
             String tableName, String columnName, String newColumnName) throws SQLException {
-        try (Connection connection = getConnection()) {
-            try (Statement statement = connection.createStatement()) {
-                String sql = String.format(
-                        "ALTER TABLE %s RENAME %s TO %s;",
-                        tableName,
-                        columnName,
-                        newColumnName
-                );
-                statement.execute(sql);
-            }
-        }
+        String sql = String.format(
+                "ALTER TABLE %s RENAME %s TO %s;", tableName, columnName, newColumnName);
+        doQuery(sql);
     }
 
     public String getScheme(String tableName) throws SQLException {
@@ -133,11 +103,12 @@ public class TableEditor implements AutoCloseable {
             e.printStackTrace();
         }
         try (TableEditor tableEditor = new TableEditor(properties)) {
-            tableEditor.createTable("table_two");
+            tableEditor.createTable("table_two", "name", "varchar(255)");
+            tableEditor.addColumn("table_two", "age", "int");
+            tableEditor.renameColumn("table_two", "age", "id");
+            tableEditor.dropColumn("table_two", "id");
             tableEditor.dropTable("table_two");
-            tableEditor.addColumn("table_one", "age", "int");
-            tableEditor.dropColumn("table_one", "id");
-            tableEditor.renameColumn("table_one", "age", "id");
+            System.out.println(tableEditor.getScheme("table_two"));
         } catch (Exception e) {
             e.printStackTrace();
         }
