@@ -38,8 +38,24 @@ where c.car_body_id = cb.id
    and c.change_gear_id = cg.id;
 
 --2. Вывести отдельно детали, которые не используются в машине, кузова, двигатели, коробки передач.
+--неиспользованные кузова
+select cb.name as idle_car_body from car c
+right join car_body cb on c.car_body_id = cb.id
+where c.id is null;
+--неиспользованные двигатели
+select e.name as idle_engine from car c
+right join engine e on c.engine_id = e.id
+where c.id is null;
+--неиспользованные коробки передач
+select cg.name as idle_change_gear from car c
+right join change_gear cg on c.change_gear_id = cg.id
+where c.id is null;
+
+
+
+--неиспользованные кузова, двигатели, коробки передач в одной таблице
 select e.name as idle_engine, cb.name as idle_car_body, cg.name as idle_change_gear from car c
 full outer join engine e on c.engine_id = e.id
 full outer join car_body cb on c.car_body_id = cb.id
 full outer join change_gear cg on c.change_gear_id = cg.id
-where c.id is null ;
+where c.id is null;
