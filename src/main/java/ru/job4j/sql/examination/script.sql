@@ -24,10 +24,17 @@ insert into person (id, name, company_id) values (14, 'person5', 3);
 insert into person (id, name, company_id) values (15, 'person6', 5);
 
 
+
+-- имена всех person, которые не состоят в компании с id = 5 и название компании для каждого человека.
 select p.name, c.name from person p join company c on p.company_id=c.id where c.id <> 5;
 
+--Необходимо выбрать название компании с максимальным количеством человек + количество человек в этой компании.
+--вариант1
 select * from (select c.name, count(p.id) as sum from person p join company c on p.company_id=c.id group by c.name) sub_query1
  where sum = (
  select max(sum) from (select c.name, count(p.id) as sum from person p join company c on p.company_id=c.id group by c.name)
 sub_query2
 );
+--вариант2
+with query_count as (select c.name, count(p.id) from person p join company c on p.company_id=c.id group by c.name)
+select * from query_count where count = (select max(count) from query_count);
