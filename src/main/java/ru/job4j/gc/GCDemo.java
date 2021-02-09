@@ -1,7 +1,5 @@
 package ru.job4j.gc;
 
-import com.carrotsearch.sizeof.RamUsageEstimator;
-
 public class GCDemo {
 
     private static final long KB = 1000;
@@ -21,10 +19,9 @@ public class GCDemo {
     public static void main(String[] args) {
         info();
         for (int i = 0; i < 10000; i++) {
-            long size = RamUsageEstimator.sizeOf(new Person(i, "N" + i));
-            System.out.println("create " + i + ", size = " + size);
+            System.out.println("create " + i);
         }
-        //System.gc();
+        System.gc();
         info();
 
     }

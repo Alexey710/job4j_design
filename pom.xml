@@ -69,22 +69,11 @@
       <artifactId>activation</artifactId>
       <version>1.1.1</version>
     </dependency>
-    <dependency>
-      <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-      <version>2.3.1</version>
-    </dependency>
     <!-- https://mvnrepository.com/artifact/com.sun.xml.txw2/txw2 -->
     <dependency>
       <groupId>com.sun.xml.txw2</groupId>
       <artifactId>txw2</artifactId>
       <version>20110809</version>
-    </dependency>
-    <!-- JAXB API -->
-    <dependency>
-      <groupId>jakarta.xml.bind</groupId>
-      <artifactId>jakarta.xml.bind-api</artifactId>
-      <version>2.3.2</version>
     </dependency>
     <!-- JAXB API -->
     <dependency>
@@ -103,12 +92,6 @@
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>42.2.18</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.carrotsearch/java-sizeof -->
-    <dependency>
-      <groupId>com.carrotsearch</groupId>
-      <artifactId>java-sizeof</artifactId>
-      <version>0.0.5</version>
     </dependency>
 
   </dependencies>
