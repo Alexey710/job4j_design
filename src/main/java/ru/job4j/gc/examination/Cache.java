@@ -1,8 +1,9 @@
 package ru.job4j.gc.examination;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,18 +20,15 @@ public class Cache {
         return foundedFiles;
     }
 
-    public SoftReference<String> search(String name) throws IOException {
+    public SoftReference<String> searchInCache(String name) throws IOException {
         SoftReference<String> rsl = null;
-        if (foundedFiles.containsKey(name)) {
-            SoftReference<String> found;
-            if ((found = foundedFiles.get(name)) == null) {
-                return new SoftReference<String>("SoftReference is deleted of GC");
-            }
+        SoftReference<String> found;
+        if (foundedFiles.containsKey(name) && (found = foundedFiles.get(name)) != null) {
             System.out.println("Вернул файл из кэша:");
             return found;
-
         } else {
-            Files.walkFileTree(path, new VisitResult(name, p -> p.equals(name), this));
+            Path pathLoad = Path.of(String.format("%s%s%s", path.toString(), "/", name));
+            loadToCache(pathLoad);
         }
         if (foundedFiles.containsKey(name)) {
             System.out.println("Нашел файл в директории, и добавил в кэш:");
@@ -39,12 +37,22 @@ public class Cache {
         return rsl;
     }
 
+    private void loadToCache(Path path) throws IOException {
+        String s = path.toFile().getName();
+        try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
+                StringBuilder sb = new StringBuilder();
+                br.lines().forEach(sb :: append);
+                SoftReference<String> soft = new SoftReference<>(sb.toString());
+                foundedFiles.put(s, soft);
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         Cache cache = new Cache(Path.of("C:/test/cache"));
-        System.out.println(cache.search("Names.txt").get());
-        System.out.println(cache.search("Names.txt").get());
-        /*GC удаляет SoftReference при переполнении оперативной памяти*/
+        System.out.println(cache.searchInCache("Names.txt").get());
+        System.out.println(cache.searchInCache("Names.txt").get());
         cache.getFoundedFiles().put("Names.txt", null);
-        System.out.println(cache.search("Names.txt").get());
+        System.out.println("GC удалил SoftReference при переполнении оперативной памяти");
+        System.out.println(cache.searchInCache("Names.txt").get());
     }
 }
