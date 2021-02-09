@@ -3,6 +3,7 @@ package ru.job4j.gc.examination;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.ref.SoftReference;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
@@ -27,10 +28,11 @@ public class VisitResult extends SimpleFileVisitor<Path> {
         String s = path.toFile().getName();
         try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
             if (predicate.test(s)) {
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 br.lines().forEach(sb :: append);
+                SoftReference<String> soft = new SoftReference<>(sb.toString());
                 cache.getFoundedFiles()
-                        .put(s, sb.toString());
+                        .put(s, soft);
             }
         }
         return CONTINUE;
