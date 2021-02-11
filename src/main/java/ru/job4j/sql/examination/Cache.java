@@ -1,4 +1,4 @@
-package ru.job4j.gc.examination;
+package ru.job4j.sql.examination;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
