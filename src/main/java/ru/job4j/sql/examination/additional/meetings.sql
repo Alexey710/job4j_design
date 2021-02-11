@@ -25,7 +25,7 @@ with schedule_users as
 (select s.status, s.meetings_id, u.name from schedule s full outer join users u on s.user_id=u.id)
 select m.name from schedule_users su
 full outer join meetings m on m.id=su.meetings_id
-where su.status is null and m.name is not null or su.status = 'false';
+where su.status is null and m.name is not null;
 
 
 
