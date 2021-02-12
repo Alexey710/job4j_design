@@ -17,12 +17,12 @@ public class Cache {
     }
 
     public String searchInCache(String name) throws IOException {
-        Path pathLoad = Path.of(String.format("%s%s%s", path.toString(), "/", name));
         String strong = null;
-        if (loadedFiles.containsKey(name) && loadedFiles.get(name) != null) {
+        Path pathLoad = Path.of(String.format("%s%s%s", path.toString(), "/", name));
+        try {
             strong = loadedFiles.get(name).get();
             System.out.println("Вернул файл из кэша:");
-        } else {
+        } catch (NullPointerException e) {
             loadToCache(pathLoad);
             strong = loadedFiles.get(name).get();
             System.out.println("Нашел файл в директории, и добавил в кэш:");
