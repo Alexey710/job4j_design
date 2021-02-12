@@ -21,11 +21,8 @@ select
 full outer join meetings m on m.id=su.meetings_id
  where  su.status = 'true' or su.status is null and m.name is not null group by  m.name, su.status;
 --3. Нужно получить все совещания, где не было ни одной заявки на посещения
-with schedule_users as
-(select s.status, s.meetings_id, u.name from schedule s full outer join users u on s.user_id=u.id)
-select m.name from schedule_users su
-full outer join meetings m on m.id=su.meetings_id
-where su.status is null and m.name is not null;
-
+select m.name from schedule s
+right join meetings m on m.id=s.meetings_id
+where s.status is null;
 
 
