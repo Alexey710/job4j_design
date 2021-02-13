@@ -1,4 +1,4 @@
-package ru.job4j.architecture.srp;
+package ru.job4j.architecture.solid.srp;
 
 import org.junit.Test;
 import java.util.Calendar;
