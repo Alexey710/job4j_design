@@ -1,4 +1,4 @@
-package ru.job4j.architecture.srp;
+package ru.job4j.architecture.solid.srp;
 
 import java.util.List;
 import java.util.function.Predicate;

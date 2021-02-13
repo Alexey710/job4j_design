@@ -1,4 +1,4 @@
-package ru.job4j.architecture.ocp.violation;
+package ru.job4j.architecture.solid.ocp.violation;
 
 public class ViolationOCP2 {
     class Parent {

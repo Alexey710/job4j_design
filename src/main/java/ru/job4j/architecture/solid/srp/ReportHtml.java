@@ -1,18 +1,19 @@
-package ru.job4j.architecture.srp;
+package ru.job4j.architecture.solid.srp;
 
 import java.util.function.Predicate;
 
-public class ReportEngine implements Report {
+public class ReportHtml implements Report {
 
     private final Store store;
 
-    public ReportEngine(Store store) {
+    public ReportHtml(Store store) {
         this.store = store;
     }
 
     @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
+        text.append("</html>");
         text.append("Name; Hired; Fired; Salary;");
         for (Employee employee : store.findBy(filter)) {
             text.append(employee.getName()).append(";")
@@ -20,6 +21,7 @@ public class ReportEngine implements Report {
                     .append(employee.getFired()).append(";")
                     .append(employee.getSalary()).append(";");
         }
+        text.append("</html>");
         return text.toString();
     }
 }

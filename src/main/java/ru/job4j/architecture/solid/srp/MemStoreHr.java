@@ -1,11 +1,12 @@
-package ru.job4j.architecture.srp;
+package ru.job4j.architecture.solid.srp;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class MemStore implements Store {
+public class MemStoreHr implements Store {
 
     private final List<Employee> employees = new ArrayList<>();
 
@@ -15,6 +16,8 @@ public class MemStore implements Store {
 
     @Override
     public List<Employee> findBy(Predicate<Employee> filter) {
-        return employees.stream().filter(filter).collect(Collectors.toList());
+        return employees.stream().filter(filter)
+                .sorted(Comparator.comparing(Employee :: getSalary).reversed())
+                .collect(Collectors.toList());
     }
 }
