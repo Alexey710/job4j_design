@@ -1,7 +1,6 @@
-package ru.job4j.architecture.solid.srp;
+package ru.job4j.architecture.solid.srp.reports;
 
 import org.junit.Test;
-import ru.job4j.architecture.solid.srp.reports.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,6 +28,29 @@ public class ReportEngineTest {
     }
 
     @Test
+    public void whenXmlGenerated() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", null, null, 100);
+        store.add(worker);
+        Report engine = new ReportXML(store);
+        String expect = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+                + "\n<employee name=\"Ivan\" salary=\"100.0\"/>\n";
+        assertThat(engine.generate(em -> true), is(expect));
+    }
+
+    @Test
+    public void whenJSONGenerated() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", null, null, 100);
+        store.add(worker);
+        Report engine = new ReportJSON(store);
+        String expect = "{\"employee\": {\n    \"name\": \"Ivan\",\n    \"salary\": 100\n}}";
+        assertThat(engine.generate(em -> true), is(expect));
+    }
+
+    @Test
     public void whenHtmlGenerated() {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
@@ -36,12 +58,16 @@ public class ReportEngineTest {
         store.add(worker);
         Report engine = new ReportHtml(store);
         StringBuilder expect = new StringBuilder()
-                .append("</html>")
+                .append("<html>")
+                .append("<body>")
+                .append("<div>")
                 .append("Name; Hired; Fired; Salary;")
                 .append(worker.getName()).append(";")
                 .append(worker.getHired()).append(";")
                 .append(worker.getFired()).append(";")
                 .append(worker.getSalary()).append(";")
+                .append("</div>")
+                .append("</body>")
                 .append("</html>");
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
