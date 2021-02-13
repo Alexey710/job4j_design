@@ -1,4 +1,4 @@
-package ru.job4j.architecture.solid.srp;
+package ru.job4j.architecture.solid.srp.reports;
 
 import java.util.function.Predicate;
 

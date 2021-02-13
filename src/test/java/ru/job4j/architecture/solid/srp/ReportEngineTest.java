@@ -1,7 +1,12 @@
 package ru.job4j.architecture.solid.srp;
 
 import org.junit.Test;
+import ru.job4j.architecture.solid.srp.reports.*;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -59,13 +64,13 @@ public class ReportEngineTest {
 
     @Test
     public void whenHrGenerated() {
-        MemStoreHr store = new MemStoreHr();
+        List<Employee> list = new ArrayList<>();
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
-        store.add(worker);
+        list.add(worker);
         Employee worker2 = new Employee("Stepan", now, now, 150);
-        store.add(worker2);
-        Report engine = new ReportHr(store);
+        list.add(worker2);
+        Report engine = new ReportHr(list);
         StringBuilder expect = new StringBuilder()
                 .append(worker.getName()).append(";")
                 .append(worker.getSalary()).append(";");

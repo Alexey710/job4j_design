@@ -1,12 +1,12 @@
-package ru.job4j.architecture.solid.srp;
+package ru.job4j.architecture.solid.srp.reports;
 
 import java.util.function.Predicate;
 
-public class ReportBookkeeping implements Report {
+public class ReportEngine implements Report {
 
     private final Store store;
 
-    public ReportBookkeeping(Store store) {
+    public ReportEngine(Store store) {
         this.store = store;
     }
 
@@ -18,7 +18,7 @@ public class ReportBookkeeping implements Report {
             text.append(employee.getName()).append(";")
                     .append(employee.getHired()).append(";")
                     .append(employee.getFired()).append(";")
-                    .append(Math.round(employee.getSalary())).append(";");
+                    .append(employee.getSalary()).append(";");
         }
         return text.toString();
     }
