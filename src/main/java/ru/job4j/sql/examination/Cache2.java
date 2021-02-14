@@ -19,37 +19,47 @@ public class Cache2 {
     public String searchInCache(String name) throws IOException {
         String strong = null;
         Path pathLoad = Path.of(String.format("%s%s%s", path.toString(), "/", name));
+        try {
         if (loadedFiles.containsKey(name)) {
             strong = loadedFiles.get(name).get();
             if (strong == null || strong.isEmpty()) {
-                loadToCache(pathLoad);
-                strong = loadedFiles.get(name).get();
+                strong = createSoftReferenceAndPutToMap(name, pathLoad);
             }
-            System.out.println("Вернул файл из кэша:");
         } else {
-            loadToCache(pathLoad);
-            strong = loadedFiles.get(name).get();
-            System.out.println("Нашел файл в директории, и добавил в кэш:");
+            loadedFiles.put(name, new SoftReference<>(""));
+            strong = searchInCache(name);
+        }
+        } catch (NullPointerException e) {
+                strong = createSoftReferenceAndPutToMap(name, pathLoad);
         }
         return strong;
     }
 
-    private void loadToCache(Path path) throws IOException {
+    private String getStringFromFile(Path path) throws IOException {
         String s = path.toFile().getName();
         try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
                 StringBuilder sb = new StringBuilder();
                 br.lines().forEach(sb :: append);
-                SoftReference<String> soft = new SoftReference<>(sb.toString());
-            loadedFiles.put(s, soft);
+            return sb.toString();
         }
+    }
+
+    private String createSoftReferenceAndPutToMap(String name, Path pathLoad) throws IOException {
+        String strong = getStringFromFile(pathLoad);
+        SoftReference<String> soft = new SoftReference<>(strong);
+        loadedFiles.put(name, soft);
+        return strong;
     }
 
     public static void main(String[] args) throws IOException {
         Cache2 cache = new Cache2(Path.of("C:/test/cache"));
         System.out.println(cache.searchInCache("Names.txt"));
         System.out.println(cache.searchInCache("Names.txt"));
+        /*"GC удалил String в SoftReference"*/
+        cache.loadedFiles.put("Names.txt", new SoftReference<>(null));
+        System.out.println(cache.searchInCache("Names.txt"));
+        /*"GC удалил SoftReference"*/
         cache.loadedFiles.put("Names.txt", null);
-        System.out.println("GC удалил SoftReference при переполнении оперативной памяти");
         System.out.println(cache.searchInCache("Names.txt"));
     }
 }
