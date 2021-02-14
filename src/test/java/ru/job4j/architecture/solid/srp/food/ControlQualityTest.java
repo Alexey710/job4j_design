@@ -19,7 +19,7 @@ public class ControlQualityTest {
         /*CurrentDate set for test only*/
         milk.setCurrentDate(LocalDate.of(2021, 2, 14));
         cq.distributeFood(milk);
-        Assert.assertEquals(cq.getWarehouse().getList().size(), 1);
+        Assert.assertEquals(cq.getStores().get(0).getList().size(), 1);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class ControlQualityTest {
         /*CurrentDate set for test only*/
         milk.setCurrentDate(LocalDate.of(2021, 2, 14));
         cq.distributeFood(milk);
-        Assert.assertEquals(cq.getShop().getList().size(), 1);
+        Assert.assertEquals(cq.getStores().get(1).getList().size(), 1);
     }
 
     @Test
@@ -43,8 +43,8 @@ public class ControlQualityTest {
         /*CurrentDate set for test only*/
         milk.setCurrentDate(LocalDate.of(2021, 2, 14));
         cq.distributeFood(milk);
-        Assert.assertEquals(cq.getShop().getList().size(), 1);
-        Assert.assertThat(cq.getShop().getList().get(0).getPrice(), is(100 * 0.6));
+        Assert.assertEquals(cq.getStores().get(1).getList().size(), 1);
+        Assert.assertThat(cq.getStores().get(1).getList().get(0).getPrice(), is(100 * 0.6));
     }
 
     @Test
@@ -56,6 +56,6 @@ public class ControlQualityTest {
         /*CurrentDate set for test only*/
         milk.setCurrentDate(LocalDate.of(2021, 2, 14));
         cq.distributeFood(milk);
-        Assert.assertEquals(cq.getTrash().getList().size(), 1);
+        Assert.assertEquals(cq.getStores().get(2).getList().size(), 1);
     }
 }

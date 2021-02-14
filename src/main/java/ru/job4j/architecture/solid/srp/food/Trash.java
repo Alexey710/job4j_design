@@ -15,4 +15,15 @@ public class Trash implements Store {
     public void add(Food food) {
         list.add(food);
     }
+
+    @Override
+    public boolean accept(Food food) {
+        long condition = food.getPercentOfSpentDays();
+        return condition >= 100;
+    }
+
+    @Override
+    public Strategy getStrategy() {
+        return new AddTrash();
+    }
 }

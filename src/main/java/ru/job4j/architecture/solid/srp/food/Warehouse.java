@@ -7,6 +7,11 @@ public class Warehouse implements Store {
     private final List<Food> list = new ArrayList<>();
 
     @Override
+    public AddWarehouse getStrategy() {
+        return new AddWarehouse();
+    }
+
+    @Override
     public List<Food> getList() {
         return list;
     }
@@ -14,6 +19,11 @@ public class Warehouse implements Store {
     @Override
     public void add(Food food) {
         list.add(food);
+    }
+
+    @Override
+    public boolean accept(Food food) {
+        return food.getPercentOfSpentDays() < 25;
     }
 
     @Override

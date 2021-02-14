@@ -15,4 +15,19 @@ public class Shop implements Store {
     public void add(Food food) {
         list.add(food);
     }
+
+    @Override
+    public boolean accept(Food food) {
+        long condition = food.getPercentOfSpentDays();
+        int discount = 40;
+        if (condition > 75 && condition < 100) {
+            food.setDiscount(discount);
+        }
+        return condition >= 25 && condition < 100;
+    }
+
+    @Override
+    public Strategy getStrategy() {
+        return new AddShop();
+    }
 }
