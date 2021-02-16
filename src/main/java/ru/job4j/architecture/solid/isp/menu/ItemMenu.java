@@ -27,11 +27,6 @@ public class ItemMenu implements Menu {
     }
 
     @Override
-    public boolean deleteItem(String name) {
-        return false;
-    }
-
-    @Override
     public void showMenu() {
         Queue<ItemMenu> data = new LinkedList<>();
         data.offer(this);
@@ -46,6 +41,7 @@ public class ItemMenu implements Menu {
         }
     }
 
+    @Override
     public void delete(String name) {
         Queue<ItemMenu> data = new LinkedList<>();
         data.offer(this);
