@@ -1,47 +1,39 @@
 package ru.job4j.architecture.solid.srp.parking;
 
 public class ParkingLot implements Parking {
-    private Vehicle[] lots;
+    private Vehicle[] cars;
+    private Vehicle[] trucks;
     private final int sizeCarLot = 1;
-    private final int sizeTruckLot = 4;
+    private final int sizeTruckLot = 1;
 
-    public ParkingLot(int amount) {
-        lots = new Vehicle[amount];
+    public ParkingLot(int carNumber, int truckNumber) {
+        cars = new Vehicle[carNumber];
+        trucks = new Vehicle[truckNumber];
     }
 
     @Override
     public int getEmptyLotsForTrucks() {
         int countTruck = 0;
-        int count = 0;
-        for (int i = 0; i < lots.length; i++) {
-            if (lots[i] == null) {
-                count++;
-                if (count == 4) {
-                    countTruck++;
-                    count = 0;
-                }
-            } else {
-                count = 0;
+        for (int i = 0; i < trucks.length; i++) {
+            if (trucks[i] == null) {
+                countTruck++;
             }
-
-            }
+        }
         return countTruck;
     }
 
     @Override
     public int getEmptyLotsForCars() {
         int countCar = 0;
-        for (int i = 0; i < lots.length; i++) {
-            if (lots[i] == null) {
+        for (int i = 0; i < cars.length; i++) {
+            if (cars[i] == null) {
                 countCar++;
             }
-
         }
         return countCar;
     }
 
-    @Override
-    public boolean addVehicle(Vehicle vehicle) {
+    private boolean searchEmptyLots(Vehicle vehicle, Vehicle[] lots) {
         int targetLot = vehicle.getSizeOfLot();
         int count = 0;
         for (int i = 0; i < lots.length; i++) {
@@ -62,7 +54,20 @@ public class ParkingLot implements Parking {
     }
 
     @Override
-    public boolean deleteVehicle(Vehicle vehicle) {
+    public boolean addVehicle(Vehicle vehicle) {
+        boolean rsl = false;
+        if (vehicle.getClass() == Car.class) {
+            rsl = searchEmptyLots(vehicle, cars);
+        } else {
+            rsl = searchEmptyLots(vehicle, trucks);
+            if (!rsl) {
+                rsl = searchEmptyLots(vehicle, cars);
+            }
+        }
+        return rsl;
+    }
+
+    private boolean searchForDelete(Vehicle vehicle, Vehicle[] lots) {
         int targetLot = vehicle.getSizeOfLot();
         int count = 0;
         for (int i = 0; i < lots.length; i++) {
@@ -75,6 +80,20 @@ public class ParkingLot implements Parking {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean deleteVehicle(Vehicle vehicle) {
+        boolean rsl = false;
+        if (vehicle.getClass() == Car.class) {
+            rsl = searchForDelete(vehicle, cars);
+        } else {
+            rsl = searchForDelete(vehicle, trucks);
+            if (!rsl) {
+                rsl = searchForDelete(vehicle, cars);
+            }
+        }
+        return rsl;
     }
 
 }
