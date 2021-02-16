@@ -58,4 +58,19 @@ public class ControlQualityTest {
         cq.distributeFood(milk);
         Assert.assertEquals(cq.getStores().get(2).getList().size(), 1);
     }
+
+    @Test
+    public void whenResortFromShopToTrash() {
+        Food milk = new Milk("milk",
+                LocalDate.of(2021, 2, 1),
+                LocalDate.of(2021, 2, 12),
+                100d, 0);
+        /*CurrentDate set for test only*/
+        milk.setCurrentDate(LocalDate.of(2021, 2, 10));
+        cq.distributeFood(milk);
+        Assert.assertEquals(cq.getStores().get(1).getList().size(), 1);
+        milk.setCurrentDate(LocalDate.of(2021, 2, 14));
+        cq.resort();
+        Assert.assertEquals(cq.getStores().get(2).getList().size(), 1);
+    }
 }

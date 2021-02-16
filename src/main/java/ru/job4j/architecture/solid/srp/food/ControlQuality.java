@@ -1,5 +1,6 @@
 package ru.job4j.architecture.solid.srp.food;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ControlQuality {
@@ -23,4 +24,17 @@ public class ControlQuality {
             }
         }
     }
+
+    public void resort() {
+        List<Food> tempStore = new ArrayList<>();
+        for (Store store : stores) {
+            List<Food> list = store.getList();
+            tempStore.addAll(list);
+            list.clear();
+        }
+        for (Food food : tempStore) {
+            distributeFood(food);
+        }
+    }
+
 }
