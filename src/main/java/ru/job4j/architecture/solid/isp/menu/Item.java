@@ -71,6 +71,20 @@ public class Item implements Menu {
         }
     }
 
+    @Override
+    public void doActionByName(String name) {
+        Queue<Item> data = new LinkedList<>();
+        data.offer(this);
+        while (!data.isEmpty()) {
+            Item head = data.poll();
+            if (head.getName().equals(name)) {
+                head.action.doAction();
+                break;
+            }
+            data.addAll(head.getList());
+        }
+    }
+
     public static void main(String[] args) {
         Item root = new Item("Задача 1.", new Action1());
         Item m2 = new Item("---- Задача 1.1.", new Action1());
@@ -91,6 +105,6 @@ public class Item implements Menu {
         System.out.println("При выборе пункта можно развернуть ветку этого пункта=========");
         root.showSubmenu("---- Задача 1.1.");
         System.out.println("У каждого пункта меню есть свое действие Action===============");
-        root.action.doAction();
+        root.doActionByName("---- Задача 1.1.");
     }
 }

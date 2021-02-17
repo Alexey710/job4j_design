@@ -8,4 +8,6 @@ public interface Menu {
     void showMenu();
 
     void showSubmenu(String name);
+
+    void doActionByName(String name);
 }
