@@ -56,7 +56,7 @@ public class ParkingLot implements Parking {
     @Override
     public boolean addVehicle(Vehicle vehicle) {
         boolean rsl = false;
-        if (vehicle.getClass() == Car.class) {
+        if (vehicle.getSizeOfLot() == 1) {
             rsl = searchEmptyLots(vehicle, cars);
         } else {
             rsl = searchEmptyLots(vehicle, trucks);
@@ -85,7 +85,7 @@ public class ParkingLot implements Parking {
     @Override
     public boolean deleteVehicle(Vehicle vehicle) {
         boolean rsl = false;
-        if (vehicle.getClass() == Car.class) {
+        if (vehicle.getSizeOfLot() == 1) {
             rsl = searchForDelete(vehicle, cars);
         } else {
             rsl = searchForDelete(vehicle, trucks);
