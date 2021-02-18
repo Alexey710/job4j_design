@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.function.Consumer;
 
 public class Item implements Menu {
     private Action action;
@@ -45,40 +46,26 @@ public class Item implements Menu {
 
     @Override
     public void delete(String name) {
-        Queue<Item> data = new LinkedList<>();
-        data.offer(this);
-        while (!data.isEmpty()) {
-            Item head = data.poll();
-            if (head.getName().equals(name)) {
-                this.getList().remove(head);
-                break;
-            }
-            data.addAll(head.getList());
-        }
+        search(name, head -> this.getList().remove(head));
     }
 
     @Override
     public void showSubmenu(String name) {
-        Queue<Item> data = new LinkedList<>();
-        data.offer(this);
-        while (!data.isEmpty()) {
-            Item head = data.poll();
-            if (head.getName().equals(name)) {
-                head.showMenu();
-                break;
-            }
-            data.addAll(head.getList());
-        }
+        search(name, head -> head.showMenu());
     }
 
     @Override
     public void doActionByName(String name) {
+        search(name, head -> head.action.doAction());
+    }
+
+    private void search(String name, Consumer<Item> func) {
         Queue<Item> data = new LinkedList<>();
         data.offer(this);
         while (!data.isEmpty()) {
             Item head = data.poll();
             if (head.getName().equals(name)) {
-                head.action.doAction();
+                func.accept(head);
                 break;
             }
             data.addAll(head.getList());
@@ -100,8 +87,6 @@ public class Item implements Menu {
         System.out.println("При выборе пункта можно удалить этот пункт====================");
         root.delete("---- Задача 1.2.");
         root.showMenu();
-        System.out.println("При выборе пункта можно развернуть ветку этого пункта=========");
-        root.showSubmenu("---- Задача 1.1.");
         System.out.println("При выборе пункта можно развернуть ветку этого пункта=========");
         root.showSubmenu("---- Задача 1.1.");
         System.out.println("У каждого пункта меню есть свое действие Action===============");
