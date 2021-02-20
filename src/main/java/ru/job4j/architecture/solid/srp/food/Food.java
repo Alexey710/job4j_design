@@ -10,7 +10,8 @@ public class Food {
     private double price;
     private double discount;
 
-    public Food(String name, LocalDate createDate, LocalDate expiryDate, double price, double discount) {
+    public Food(String name, LocalDate createDate,
+                LocalDate expiryDate, double price, double discount) {
         this.name = name;
         this.createDate = createDate;
         this.expiryDate = expiryDate;

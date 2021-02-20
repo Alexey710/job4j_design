@@ -10,5 +10,4 @@ public class Milk extends Food {
         super(name, createDate, expiryDate, price, discount);
     }
 
-
 }
