@@ -9,7 +9,7 @@ public class ConfigTest {
 
     @Test
     public void whenPairWithoutCommentAndWithComment() {
-        Config config = new Config(".\\app.properties");
+        Config config = new Config("./app.properties");
         config.load();
 
         assertThat(config.value("jdbc.connection.username"), is("postgres"));
